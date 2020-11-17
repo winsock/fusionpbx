@@ -693,6 +693,40 @@
 		echo "</script>";
 	}
 
+//per template field editing
+	$template_base_url = PROJECT_PATH . '/app/devices/template_config.php';
+	$encoded_text = json_encode($text);
+	$encoded_row = json_encode($row);
+	// Define the javascript function used to reload new configurations when the template changes, also call the first load.
+echo <<<EOF
+		<script language='javascript' type='text/javascript'>
+			const template_dir = "{$template_base_url}";
+			var text = {$encoded_text};
+			var row = {$encoded_row};
+			function reload_config() {
+			    // Read the value of the template form field
+			    let template = $('#device_template').val();
+				$.getScript(template_dir + '?template=' + template).done(() => {
+				    // Load the new allowable key categories
+					if (template_config.has('key_categories')) {
+						let new_categories = template_config.get('key_categories').map(category => {
+							return "<option value='"+category+"'>"+category+"</option>";
+						}).join('');
+						$('.device_key_category').each(function() {
+						    // Get the selected value
+						    let selected = $(this).val();
+							$(this).find('option').remove().end().append(new_categories);
+							// Set the selected value back
+							$(this).val(selected);
+						});
+					}
+				});	
+			}
+			window.addEventListener('load', reload_config);
+		</script>
+EOF;
+
+
 //add the QR code
 	if (permission_exists("device_line_password") && $device_template == "grandstream/wave") {
 		//set the mode
@@ -918,7 +952,7 @@
 		echo "<td class='vtable' align='left'>\n";
 		$device = new device;
 		$template_dir = $device->get_template_dir();
-		echo "	<select id='device_template' name='device_template' class='formfld'>\n";
+		echo "	<select id='device_template' name='device_template' class='formfld' onchange='reload_config()'>\n";
 		echo "		<option value=''></option>\n";
 		if (is_dir($template_dir) && @is_array($device_vendors)) {
 			foreach ($device_vendors as $row) {
@@ -1306,7 +1340,7 @@
 			//show all the rows in the array
 				echo "			<tr>\n";
 				echo "<td valign='top' align='left' nowrap='nowrap'>\n";
-				echo "	<select class='formfld' name='device_keys[".$x."][device_key_category]'>\n";
+				echo "	<select class='formfld device_key_category' name='device_keys[".$x."][device_key_category]'>\n";
 				echo "	<option value=''></option>\n";
 				if ($row['device_key_category'] == "line") {
 					echo "	<option value='line' selected='selected'>".$text['label-line']."</option>\n";

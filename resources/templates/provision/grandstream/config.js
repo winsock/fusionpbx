@@ -1,0 +1,1 @@
+template_config.set('key_categories', ["VPK", "MPK", "SoftKey"]);
