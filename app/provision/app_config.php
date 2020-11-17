@@ -119,6 +119,14 @@
 		$apps[$x]['default_settings'][$y]['default_setting_enabled'] = "true";
 		$apps[$x]['default_settings'][$y]['default_setting_description'] = "";
 		$y++;
+		$apps[$x]['default_settings'][$y]['default_setting_uuid'] = "d0fb35a5-b5cb-4d9c-9554-56c5087d74ec";
+		$apps[$x]['default_settings'][$y]['default_setting_category'] = "provision";
+		$apps[$x]['default_settings'][$y]['default_setting_subcategory'] = "subscribe_mwi_to_vm";
+		$apps[$x]['default_settings'][$y]['default_setting_name'] = "boolean";
+		$apps[$x]['default_settings'][$y]['default_setting_value'] = "1";
+		$apps[$x]['default_settings'][$y]['default_setting_enabled'] = "true";
+		$apps[$x]['default_settings'][$y]['default_setting_description'] = "Subscribe to the voicemail MWI 0-Disabled (default), 1-Enabled";
+		$y++;
 		$apps[$x]['default_settings'][$y]['default_setting_uuid'] = "c104cf6e-722b-4994-8f3e-2a368aa11715";
 		$apps[$x]['default_settings'][$y]['default_setting_category'] = "provision";
 		$apps[$x]['default_settings'][$y]['default_setting_subcategory'] = "outbound_proxy_primary";
