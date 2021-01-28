@@ -276,6 +276,9 @@
 
 		echo "<div id='login_form'>\n";
 		echo "<form name='login' method='post' action='".$_SESSION['login']['destination']['url']."'>\n";
+		if (isset($_REQUEST['path'])) {
+			echo "<input type='hidden' name='path' value='{$_REQUEST['path']}'/>\n";
+		}
 		echo "<input type='text' class='txt login' style='text-align: center; min-width: 200px; width: 200px; margin-bottom: 8px;' name='username' id='username' placeholder=\"".$text['label-username']."\"><br />\n";
 		echo "<input type='password' class='txt login' style='text-align: center; min-width: 200px; width: 200px; margin-bottom: 8px;' name='password' placeholder=\"".$text['label-password']."\"><br />\n";
 		if ($_SESSION['login']['domain_name_visible']['boolean'] == "true") {
