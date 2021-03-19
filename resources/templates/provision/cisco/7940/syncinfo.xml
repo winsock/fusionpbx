@@ -1,1 +1,1 @@
-<IMAGE VERSION="*" SYNC="0001"/>
+<IMAGE VERSION="*" SYNC="{$smarty.now}"/>
