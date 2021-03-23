@@ -508,7 +508,7 @@ if (!class_exists('destinations')) {
 					}
 				}
 				$response .= "	</select>";
-				$response_button = button::create([
+				$response .= button::create([
 					'type'=>'button',
 					'icon'=>'external-link-alt',
 					'id'=>'btn_dest_go',
