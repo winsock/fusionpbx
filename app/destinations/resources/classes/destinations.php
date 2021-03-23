@@ -494,7 +494,7 @@ if (!class_exists('destinations')) {
 							$text2 = $language2->get($_SESSION['domain']['language']['code'], 'app/dialplans');
 						}
 						//add the application to the select list
-						$response .= "		<option id='{$singular}' class="{$key}" value='".$key."' $selected>".$text2['title-'.$key]."</option>\n";
+						$response .= "		<option id='{$singular}' class='{$key}' value='".$key."' $selected>".$text2['title-'.$key]."</option>\n";
 					}
 				}
 				$response .= "	</select>\n";
