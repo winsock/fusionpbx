@@ -476,7 +476,7 @@ if (!class_exists('destinations')) {
 				$language2 = new text;
 
 				//build the destination select list in html
-				$response .= "	<select id='destination_type' class='formfld' style='".$select_style."' onchange=\"get_destinations('".$destination_id."', '".$destination_type."', this.value);\">\n";
+				$response .= "	<select id='{destination_id}_type' class='formfld' style='".$select_style."' onchange=\"get_destinations('".$destination_id."', '".$destination_type."', this.value);\">\n";
 				$response .= " 		<option value=''></option>\n";
 				foreach($_SESSION['destinations']['array'][$destination_type] as $key => $value) {
 					$singular = $this->singular($key);
@@ -513,9 +513,8 @@ if (!class_exists('destinations')) {
 					'icon'=>'external-link-alt',
 					'id'=>'btn_dest_go',
 					'title'=>$text['label-edit'],
-					'onclick'=>"let types = document.getElementById('destination_type').options; let opts = document.getElementById('{$destination_id}').options; window.location.assign('/app/{$key}/'+types[types.selectedIndex].id+'_edit.php?id='+opts[opts.selectedIndex].id);"
+					'onclick'=>"let types = document.getElementById('{destination_id}_type').options; let opts = document.getElementById('{$destination_id}').options; window.location.assign('/app/'+types[types.selectedIndex].id+'s/'+types[types.selectedIndex].id+'_edit.php?id='+opts[opts.selectedIndex].id);"
 				])."\n";
-				
 
 				//debug information
 				//echo $response;
