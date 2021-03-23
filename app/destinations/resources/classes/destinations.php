@@ -476,10 +476,11 @@ if (!class_exists('destinations')) {
 				$language2 = new text;
 
 				//build the destination select list in html
-				$response .= "	<select class='formfld' style='".$select_style."' onchange=\"get_destinations('".$destination_id."', '".$destination_type."', this.value);\">\n";
+				$response .= "	<select id='destination_type' class='formfld' style='".$select_style."' onchange=\"get_destinations('".$destination_id."', '".$destination_type."', this.value);\">\n";
 				$response .= " 		<option value=''></option>\n";
 				foreach($_SESSION['destinations']['array'][$destination_type] as $key => $value) {
-					if (permission_exists($destination->singular($key)."_destinations")) {
+					$singular = $this->singular($key);
+					if (permission_exists("{$singular}_destinations")) {
 						//determine if selected
 						$selected = ($key == $destination_key) ? "selected='selected'" : ''; 
 
@@ -493,28 +494,27 @@ if (!class_exists('destinations')) {
 							$text2 = $language2->get($_SESSION['domain']['language']['code'], 'app/dialplans');
 						}
 						//add the application to the select list
-						$response .= "		<option value='".$key."' $selected>".$text2['title-'.$key]."</option>\n";
+						$response .= "		<option id='{$singular}' value='".$key."' $selected>".$text2['title-'.$key]."</option>\n";
 					}
 				}
 				$response .= "	</select>\n";
 				$response .= "	<select id='".$destination_id."' name='".$destination_name."' class='formfld' style='".$select_style."'>\n";
 				foreach($_SESSION['destinations']['array'][$destination_type] as $key => $value) {
 					if ($key == $destination_key) {
-						$singular = $this->singular($key);
 						foreach($value as $k => $row) {
 							$selected = ($row['destination'] == $destination_value) ? "selected='selected'" : ''; 
-							$response .= "		<option id='{$row[$singular.'_uuid']}' value='".$row['destination']."' $selected>".$row['label']."</option>\n";
+							$response .= "		<option id='{$row[$this->singular($key).'_uuid']}' value='".$row['destination']."' $selected>".$row['label']."</option>\n";
 						}
-						$response_button = button::create([
-							'type'=>'button',
-							'icon'=>'external-link-alt',
-							'id'=>'btn_dest_go',
-							'title'=>$text['label-edit'],
-							'onclick'=>"let opts = document.getElementById('{$destination_id}').options; window.location.assign('/app/{$key}/{$singular}_edit.php?id='+opts[opts.selectedIndex].id);"
-						])."\n";
 					}
 				}
-				$response .= "	</select>".$response_button."\n";
+				$response .= "	</select>";
+				$response_button = button::create([
+					'type'=>'button',
+					'icon'=>'external-link-alt',
+					'id'=>'btn_dest_go',
+					'title'=>$text['label-edit'],
+					'onclick'=>"let types = document.getElementById('destination_type').options; let opts = document.getElementById('{$destination_id}').options; window.location.assign('/app/{$key}/'+types[types.selectedIndex].id+'_edit.php?id='+opts[opts.selectedIndex].id);"
+				])."\n";
 				
 
 				//debug information
