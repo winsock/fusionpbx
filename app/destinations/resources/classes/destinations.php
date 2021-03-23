@@ -494,7 +494,7 @@ if (!class_exists('destinations')) {
 							$text2 = $language2->get($_SESSION['domain']['language']['code'], 'app/dialplans');
 						}
 						//add the application to the select list
-						$response .= "		<option id='{$singular}' value='".$key."' $selected>".$text2['title-'.$key]."</option>\n";
+						$response .= "		<option id='{$singular}' class="{$key}" value='".$key."' $selected>".$text2['title-'.$key]."</option>\n";
 					}
 				}
 				$response .= "	</select>\n";
@@ -513,7 +513,7 @@ if (!class_exists('destinations')) {
 					'icon'=>'external-link-alt',
 					'id'=>'btn_dest_go',
 					'title'=>$text['label-edit'],
-					'onclick'=>"let types = document.getElementById('{destination_id}_type').options; let opts = document.getElementById('{$destination_id}').options; window.location.assign('/app/'+types[types.selectedIndex].id+'s/'+types[types.selectedIndex].id+'_edit.php?id='+opts[opts.selectedIndex].id);"
+					'onclick'=>"let types = document.getElementById('{destination_id}_type').options; let opts = document.getElementById('{$destination_id}').options; window.location.assign('/app/'+types[types.selectedIndex].className+'/'+types[types.selectedIndex].id+'_edit.php?id='+opts[opts.selectedIndex].id);"
 				])."\n";
 
 				//debug information
