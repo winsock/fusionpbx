@@ -500,20 +500,18 @@ if (!class_exists('destinations')) {
 				$response .= "	<select id='".$destination_id."' name='".$destination_name."' class='formfld' style='".$select_style."'>\n";
 				foreach($_SESSION['destinations']['array'][$destination_type] as $key => $value) {
 					if ($key == $destination_key) {
+						$singular = $this->singular($key);
 						foreach($value as $k => $row) {
 							$selected = ($row['destination'] == $destination_value) ? "selected='selected'" : ''; 
-							$response .= "		<option value='".$row['destination']."' $selected>".$row['label']."</option>\n";
-							if ($row['destination'] == $destination_value) {
-								$response_button = button::create([
-									'type'=>'button',
-									'icon'=>'external-link-alt',
-									'id'=>'btn_dest_go',
-									'title'=>$row['label'],
-									//'style'=>'margin-left: 15px;',
-									'link'=>'/app/'.$key.'/'.$this->singular($key).'_edit.php?id='.$row[$this->singular($key).'_uuid']
-								])."\n";
-							}
+							$response .= "		<option id='{$row[$singular.'_uuid']}' value='".$row['destination']."' $selected>".$row['label']."</option>\n";
 						}
+						$response_button = button::create([
+							'type'=>'button',
+							'icon'=>'external-link-alt',
+							'id'=>'btn_dest_go',
+							'title'=>$text['label-edit'],
+							'onclick'=>"let opts = document.getElementById('{$destination_id}').options; window.location.assign('/app/{$key}/{$singular}_edit.php?id='+opts[opts.selectedIndex].id);"
+						])."\n";
 					}
 				}
 				$response .= "	</select>".$response_button."\n";
